@@ -4,7 +4,7 @@ This document provides a full, production-grade Python script to solve the super
 Dataset Link: https://raw.githubusercontent.com/sushantag9/Supermarket-Sales-Data-Analysis/master/supermarket_sales%20-%20Sheet1.csv
 
 Python Implementation
-Here's the optimized solution using a modern data stack with Prefect for orchestration, DuckDB for analytics, and Plotly for visualization:
+Here's the optimized solution using a modern data stack with Prefect for orchestration, DuckDB for analytics, and Plotly for visualization.
 
 # Supermarket Sales Analysis with Prefect Orchestration
 # Dataset: [https://raw.githubusercontent.com/sushantag9/Supermarket-Sales-Data-Analysis/master/supermarket_sales%20-%20Sheet1.csv](https://raw.githubusercontent.com/sushantag9/Supermarket-Sales-Data-Analysis/master/supermarket_sales%20-%20Sheet1.csv)
@@ -289,6 +289,3 @@ Analytics database: supermarket_sales.duckdb
 Interactive reports: *.html files
 
 Console: Business insights and metrics
-
-For Enhanced Monitoring:
-**Start Prefect server
