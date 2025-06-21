@@ -1,15 +1,15 @@
-# Supermarket Sales Analysis: Complete Solution
-
+Supermarket Sales Analysis: Complete Solution
 This production-grade Python script solves the supermarket sales analysis tasks using a modern data stack including:
-- **Prefect** for orchestration
-- **DuckDB** for fast analytics
-- **Plotly** for interactive visualizations
 
-**Dataset**: [https://raw.githubusercontent.com/sushantag9/Supermarket-Sales-Data-Analysis/master/supermarket_sales%20-%20Sheet1.csv](https://raw.githubusercontent.com/sushantag9/Supermarket-Sales-Data-Analysis/master/supermarket_sales%20-%20Sheet1.csv)
+Prefect for orchestration
 
-## Python Implementation
+DuckDB for fast analytics
 
-```python
+Plotly for interactive visualizations
+
+Dataset: https://raw.githubusercontent.com/sushantag9/Supermarket-Sales-Data-Analysis/master/supermarket_sales%20-%20Sheet1.csv
+
+Python Implementation
 from prefect import flow, task
 import pandas as pd
 import duckdb
