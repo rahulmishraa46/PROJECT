@@ -138,8 +138,8 @@ def extract_insights(df):
     insights['branch_percentage'] = (branch_income.max() / branch_income.sum()) * 100
     
     # Product ratings
-    insights['electronics_rating'] = df[df['Product line'] == 'Electronic Accessories']['Rating'].mean()
-    insights['other_rating'] = df[df['Product line'] != 'Electronic Accessories']['Rating'].mean()
+    insights['electronics_rating'] = df.loc[df['Product line'] == 'Electronic Accessories', 'Rating'].mean()
+    insights['other_rating'] = df.loc[df['Product line'] != 'Electronic Accessories', 'Rating'].mean()
     
     # Customer value
     customer_revenue = df.groupby('Customer type')['Total'].sum()
@@ -201,13 +201,13 @@ def supermarket_analysis_flow():
     
     # 2. Exploratory Analysis
     analysis_results = perform_analysis(clean_data)
-    print(f"📊 Analysis Results:")
+    print(f"\n📊 Analysis Results:")
     print(f"Total Revenue: ${analysis_results['total_revenue']:,.2f}")
     print(f"Avg Transaction: ${analysis_results['avg_transaction']:,.2f}")
     
     # 3. Visualizations
     viz_status = generate_visualizations(clean_data)
-    print(f"🎨 {viz_status}")
+    print(f"\n🎨 {viz_status}")
     
     # 4. Business Insights
     insights = extract_insights(clean_data)
@@ -225,7 +225,7 @@ def supermarket_analysis_flow():
     print(f"Anomalous Transactions: {advanced['anomaly_count']}")
     print(f"Time-of-day vs Spending (R²): {advanced['time_spending_r2']:.3f}")
     
-    return "🎉 Analysis Complete!"
+    return "\n🎉 Analysis Complete!"
 
 # Run the flow
 if __name__ == "__main__":
@@ -279,3 +279,16 @@ pip install prefect pandas duckdb plotly scikit-learn
 Run the flow:
 
 python supermarket_analysis.py
+
+View outputs:
+
+Cleaned data: cleaned_supermarket_sales.csv
+
+Analytics database: supermarket_sales.duckdb
+
+Interactive reports: *.html files
+
+Console: Business insights and metrics
+
+For Enhanced Monitoring:
+**Start Prefect server
