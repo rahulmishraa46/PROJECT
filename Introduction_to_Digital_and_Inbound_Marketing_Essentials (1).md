@@ -1,319 +1,145 @@
-# Introduction to Apache Airflow: Automating and Managing Workflows
+# Supermarket Sales Data Analysis Assignment
 
-## Introduction  
-Apache Airflow is an open-source platform designed to programmatically author, schedule, and monitor workflows. In today’s data-driven world, automating complex processes—such as data pipelines, machine learning model training, and ETL (Extract, Transform, Load) tasks—is critical for efficiency and scalability. Airflow allows teams to define workflows as code, making them reusable, dynamic, and easily maintainable. Whether orchestrating daily data ingestion or coordinating multi-team workflows, Airflow provides the tools to ensure tasks run in the right order, at the right time, and with proper monitoring.
+## 📋 Problem Statement
+You've been hired as a Data Analyst by a supermarket chain with 3 branches in Myanmar. The management wants to understand customer behavior, product performance, and sales patterns to optimize their operations. Your task is to perform an end-to-end data analysis of their sales records using Python.
 
----
+### 📊 Dataset
+**Source**: [Supermarket Sales Dataset](https://raw.githubusercontent.com/sushantag9/Supermarket-Sales-Data-Analysis/master/supermarket_sales%20-%20Sheet1.csv)  
+**Records**: 1,000 transactions  
+**Time Period**: Jan-Mar 2019  
+**Columns**: 17 (Invoice ID, Branch, City, Customer type, Gender, Product line, Unit price, Quantity, Tax 5%, Total, Date, Time, Payment, COGS, Gross income, Rating)
 
-## Learning Objectives  
-1. **Understand** the core components of Apache Airflow, including DAGs, Operators, and Tasks.  
-2. **Design** a basic workflow using Airflow’s Python-based framework.  
-3. **Monitor** and troubleshoot workflows using Airflow’s UI and logging features.  
+## 🎯 Objectives
+1. Perform comprehensive ETL (Extract, Transform, Load) process
+2. Conduct exploratory data analysis (EDA)
+3. Generate actionable business insights
+4. Create visualizations to support findings
+5. Build a complete analysis pipeline
 
----
+## 💻 Tasks
 
-## What is a Workflow?  
-A workflow is a sequence of tasks that are executed in a specific order to achieve a goal. In data engineering, workflows might include steps like fetching data, cleaning it, analyzing it, and generating reports. Manually managing these processes is error-prone and inefficient. Apache Airflow solves this by allowing you to define workflows as code, automating their execution and monitoring.  
 
----
+1️⃣ Data Preparation (ETL)
+[ ] a. Extract data from the provided URL:
 
-## Core Components of Apache Airflow  
+Write a script to download or read the data from its source.
 
-### 1. Directed Acyclic Graph (DAG)  
-- **Core Idea**: A DAG defines the workflow structure, representing tasks and their dependencies. It ensures tasks run in the correct order without cycles.  
-- **Key Features**:  
-  - Written in Python, making it dynamic and flexible.  
-  - Scheduled using cron-like syntax or time intervals.  
-  - Enables task reuse and modularity.  
+[ ] b. Handle datetime conversion:
 
-# Directed Acyclic Graph (DAG) in Apache Airflow
+Combine the Date and Time columns into a single DateTime column.
 
-A **Directed Acyclic Graph (DAG)** is the backbone of Apache Airflow's workflow management system. It represents a collection of all the tasks you want to run, organized in a way that reflects their relationships and dependencies.
+Ensure the new column is of a proper datetime data type.
 
-## Core Concept
+[ ] c. Clean data:
 
-- **Directed**: The workflow has a specific flow from one task to another.
-- **Acyclic**: No cycles are allowed; a task cannot be dependent on itself either directly or indirectly.
-- **Graph**: Composed of nodes (tasks) and edges (dependencies), forming a structure that defines execution order.
+Standardize text columns (e.g., to Title Case).
 
-This structure ensures that tasks execute in a valid, logical sequence, preventing circular dependencies and allowing for deterministic workflows.
+Develop a strategy for handling any missing or null values.
 
-## Key Features
+[ ] d. Calculate new metrics:
 
-- **Python-Based**: DAGs are defined in standard Python files, allowing the use of dynamic and programmatic structures.
-- **Flexible Scheduling**: DAGs can be scheduled using cron expressions or defined time intervals, making them suitable for a wide range of use cases.
-- **Task Modularity and Reusability**: Tasks and operators can be reused across different DAGs, supporting DRY (Don't Repeat Yourself) principles.
-- **Clear Dependency Management**: Dependencies between tasks are explicitly defined, ensuring predictable execution flows.
-- **Retry and Alert Mechanisms**: DAGs support configurable retry strategies and failure notifications to enhance reliability.
-- **Backfilling and Catch-up**: Missed runs can be automatically executed when a DAG is re-enabled or updated, ensuring data consistency over time.
+Extract the Hour of purchase from the Time or DateTime column.
 
-## DAG Characteristics
+Calculate the Gross Margin Percentage using the formula: (Gross income / Total) * 100.
 
-- **Declarative Structure**: You define what should be done and in what order, rather than how to do it step by step.
-- **Dynamic Creation**: DAGs can be created dynamically using loops or external configuration files, enabling scalable and templated workflows.
-- **Configurability**: Settings such as owner, retry logic, start date, and timeout behavior can be easily customized per DAG or task.
-- **Visibility and Monitoring**: The Airflow UI provides a visual representation of DAGs, task statuses, execution times, and logs, aiding in debugging and management.
+[ ] e. Save cleaned data to multiple formats:
 
-## Best Practices
+Save the final, cleaned DataFrame as a CSV file.
 
-- **Name DAGs and Tasks Clearly**: Use descriptive names to make workflows self-explanatory.
-- **Keep DAGs Lightweight**: Avoid heavy computations or API calls in the DAG definition file itself.
-- **Avoid Cyclic Dependencies**: Always ensure that the task dependency graph remains acyclic.
-- **Separate Logic from Configuration**: Encapsulate business logic in external scripts or modules to keep DAGs clean and readable.
-- **Limit DAG File Complexity**: Keep each DAG focused and manageable; if it gets too large, consider breaking it into multiple DAGs.
+Save the final, cleaned DataFrame as a Parquet file.
 
----
+Load the data into a DuckDB database file.
 
-Analysis
+2️⃣ Exploratory Analysis
+[ ] a. Total revenue and average transaction value:
 
-python
-Always show details
+Calculate the sum of the 'Total' column for total revenue.
 
+Calculate the average of the 'Total' column for the average transaction value.
 
-# Scheduling with Cron in Apache Airflow
+[ ] b. Most popular product line by quantity sold:
 
-## Overview
+Group by 'Product line' and sum the 'Quantity'.
 
-Apache Airflow uses cron expressions to schedule DAG runs. This allows workflows to be triggered automatically at specified intervals, providing flexibility and precision in timing.
+[ ] c. City with highest customer ratings:
 
-## Cron Expression Format
+Group by 'City' and calculate the average 'Rating'.
 
-A cron expression has five fields, each separated by a space:
+[ ] d. Hourly sales pattern (peak sales hours):
 
-│ │ │ │ │
-│ │ │ │ └── Day of the week (0 - 6) (Sunday=0)
-│ │ │ └──── Month (1 - 12)
-│ │ └────── Day of the month (1 - 31)
-│ └──────── Hour (0 - 23)
-└────────── Minute (0 - 59)
+Analyze the distribution of sales across the 'Hour of purchase'.
 
-markdown
-Always show details
+[ ] e. Gender spending differences:
 
-Copy
+Compare the average transaction value between different genders.
 
-## Common Examples
+3️⃣ Visualization Tasks
+[ ] a. Sales distribution by product line:
 
-- `@hourly` – Runs once every hour
-- `@daily` – Runs once a day at midnight (00:00)
-- `0 6 * * *` – Runs daily at 6:00 AM
-- `30 2 * * 1-5` – Runs at 2:30 AM, Monday through Friday
-- `0 0 1 * *` – Runs on the 1st of every month at midnight
+Create an interactive Bar Chart showing total sales for each product line.
 
-## Preset Options
+[ ] b. Payment method popularity:
 
-Airflow supports special preset strings as shortcuts:
+Create an interactive Pie Chart to visualize the distribution of payment methods.
 
-- `@once` – Run once and never again
-- `@hourly` – Every hour
-- `@daily` or `@midnight` – Once a day at 00:00
-- `@weekly` – Once a week at midnight on Sunday
-- `@monthly` – Once a month on the first day at midnight
-- `@yearly` or `@annually` – Once a year at midnight on January 1st
+[ ] c. Hourly sales trend:
 
-## Best Practices
+Create an interactive Line Chart to show how total sales vary by the hour of the day.
 
-- Use `catchup=False` in your DAG definition if you do not want Airflow to run all missed intervals.
-- Ensure system time (or Airflow's time zone settings) align with your intended schedule.
-- Prefer preset cron strings (e.g., `@daily`) for simplicity unless you need fine-grained control.
+[ ] d. Relationship between quantity and total sales:
 
----
+Create an interactive Scatter Plot with 'Quantity' on one axis and 'Total' on the other.
 
+[ ] e. Rating distribution by customer type:
 
-## Operators
+Create an interactive Box Plot to compare the distribution of 'Rating' for 'Member' vs. 'Normal' customers.
 
-**Core Idea**: Operators determine what a task does. Airflow provides pre-built operators for common actions (e.g., `PythonOperator`, `BashOperator`, `EmailOperator`).
+4️⃣ Business Insights
+[ ] 1. Which branch has the highest gross income? What's the percentage difference?
 
-# Operators in Apache Airflow
+Group by 'Branch', sum the 'gross income', and calculate the percentage difference from the other branches.
 
-## Core Idea
+[ ] 2. What's the average rating for electronic accessories? How does it compare to other categories?
 
-**Operators** define the specific action that a task will perform in a DAG. They are the building blocks of task logic and encapsulate the work that needs to be done, such as running a script, transferring data, or executing a SQL command.
+Filter for 'Electronic accessories', calculate its average rating, and compare it with the average ratings of other product lines.
 
-Airflow provides a rich set of **pre-built operators** to support common use cases. These operators abstract away low-level code, allowing developers to define tasks using high-level interfaces.
+[ ] 3. Which customer type (Member/Normal) generates more revenue?
 
-## Common Operator Types
+Group by 'Customer type' and sum the 'Total' sales to determine which is more lucrative.
 
-- **PythonOperator**: Executes a Python function.
-- **BashOperator**: Runs a Bash command or script.
-- **EmailOperator**: Sends email alerts or notifications.
-- **DummyOperator**: Used as a placeholder or for logical structuring in the DAG.
-- **BranchPythonOperator**: Enables branching logic based on conditional outcomes.
-- **Sensor Operators**: Wait for a condition to be met before continuing, e.g., FileSensor, S3KeySensor.
-- **SQL Operators**: Run SQL queries against databases (e.g., PostgresOperator, MySqlOperator).
-- **DockerOperator**: Runs a task inside a Docker container.
-- **KubernetesPodOperator**: Launches tasks in Kubernetes pods.
+[ ] 4. What's the busiest day of the week for sales?
 
-## Operator Customization
+Extract the day of the week from the DateTime column and analyze sales data to find the peak day.
 
-Operators are highly configurable. You can set:
-- Task retries and retry delay
-- Timeout and SLA (Service Level Agreement)
-- Email or callback alerts on failure
-- Template fields for dynamic values using Jinja
+[ ] 5. Identify any correlation between unit price and quantity purchased.
 
-## Reusability and Modularity
+Calculate the correlation coefficient between 'Unit price' and 'Quantity'.
 
-Operators promote code reuse. Instead of writing the same logic in multiple places, you can define a custom operator once and use it across many DAGs. This keeps workflows maintainable and modular.
+5️⃣ Advanced Analysis (Bonus)
+[ ] a. Customer segmentation:
 
-## Extending Operators
+Use clustering algorithms (e.g., K-Means) based on spending habits and frequency to identify high-value customers.
 
-Airflow also supports the creation of **custom operators** by subclassing the base operator classes. This is useful when your task logic is not covered by built-in operators or requires integration with specific systems.
+[ ] b. Time-series analysis:
 
-## Best Practices
+Analyze the daily sales trend to identify patterns, seasonality, or growth over time.
 
-- Choose the simplest operator that fits your use case.
-- Avoid placing business logic directly in the operator definition; delegate to external functions or scripts.
-- Use sensors instead of manual polling logic.
-- Group related tasks logically, even if they use different operators, for better DAG readability.
+[ ] c. Predictive modeling:
 
----
+Build a simple regression model to estimate the relationship between the time-of-day and customer spending.
 
-Operators allow you to encapsulate task behavior cleanly and consistently, making Airflow workflows powerful and easy to manage.
+[ ] d. Anomaly detection:
 
-```
+Implement a method to identify unusual transactions (e.g., exceptionally high values or unusual product combinations) that could be errors or fraud.
 
-## Tasks
 
-**Core Idea**: Tasks are individual units of work within a DAG. Each task is an instance of an operator.
 
-**Key Features**:
-- Tasks can depend on other tasks using `>>` or `set_downstream()`
-- Retries and error handling are configurable per task
 
-**Example Task Dependencies**:
-```python
-extract >> process_data  # Ensures 'process_data' runs after 'extract'
-```
 
-## Airflow Architecture: How It Works
+## 📂 Submission Requirements
+1. **Python Notebook** (`supermarket_analysis.ipynb`) containing:
+   - Complete executable code
+   - Comments explaining each step
+   - Visualizations embedded in notebook
 
-Airflow's modular architecture includes:
-- **Scheduler**: Triggers workflows and submits tasks to the executor
-- **Executor**: Runs tasks (locally or on distributed systems like Kubernetes)
-- **Web Server**: UI for monitoring DAGs, inspecting logs, and managing tasks
-- **Metadata Database**: Stores DAG definitions, task states, and execution history
 
-
-
-
-
-
-<img width="348" alt="Capture" src="https://github.com/user-attachments/assets/738c44c6-5c26-467d-9b0f-a8304c7d92be" />
-
-
-
-
-
-
-
-
-
-
-
-## Use Cases for Apache Airflow
-1. **Data Pipelines**: Automate ETL processes across databases and cloud services (e.g., AWS S3, Snowflake)
-2. **Machine Learning**: Schedule model training, data validation, and deployment tasks
-3. **DevOps Automation**: Run infrastructure checks, backups, and deployment scripts
-4. **Business Reports**: Generate daily/weekly analytics reports
-
-## Building a Workflow: 5-Step Guide
-
-| Step | Description | Example |
-|------|-------------|---------|
-| 1. Define Goals | Identify tasks, dependencies, and scheduling needs | "Load daily sales data by 5 AM" |
-| 2. Write DAG File | Structure tasks in Python | Store in `dags/` folder |
-| 3. Test DAG | Validate tasks | `airflow tasks test my_dag extract_task 2024-01-01` |
-| 4. Deploy & Monitor | Use Airflow UI | Check Graph View for progress |
-| 5. Handle Failures | Configure error handling | Retry 3x + email alerts |
-
-## Key Metrics to Monitor
-- ✅ DAG Execution Time
-- ✅ Task Success Rate
-- ⚠️ Scheduler Latency
-- 📈 Resource Utilization (CPU/Memory)
-
-## Lesson Summary
-1. **Core Components**: DAGs + Operators + Tasks
-2. **Flexibility**: Python-based workflow design
-3. **Scalability**: Kubernetes support
-4. **Monitoring**: Real-time UI insights
-
-## Challenge: Create API Data Pipeline DAG
-
-# Challenge: Create API Data Pipeline DAG in Apache Airflow
-
-## Objective
-
-Design a DAG that periodically fetches data from an external API, processes it, and stores it in a destination such as a database, cloud storage, or a data warehouse.
-
-## Pipeline Stages
-
-1. **Extract**
-   - Triggered at scheduled intervals (e.g., hourly, daily).
-   - Calls an external REST API to retrieve data.
-   - Handles authentication, pagination, and rate limits if needed.
-
-2. **Transform**
-   - Parses and cleans raw API response (e.g., JSON to structured format).
-   - Applies any necessary data transformation or enrichment (e.g., converting timestamps, normalizing fields).
-
-3. **Load**
-   - Writes the processed data to the target system, such as:
-     - PostgreSQL/MySQL database
-     - Amazon S3 or Google Cloud Storage
-     - BigQuery, Snowflake, or Redshift
-
-4. **Validation**
-   - Performs basic checks to ensure data was loaded successfully.
-   - Optionally sends notifications (e.g., Slack or Email) upon success or failure.
-
-## Operators to Use
-
-- **HTTP Sensor or Custom Sensor**: Waits for API availability (optional).
-- **PythonOperator**: Used for data extraction, transformation, and loading.
-- **BranchPythonOperator**: Implements conditional logic (e.g., skip if API has no new data).
-- **DummyOperator**: Marks pipeline boundaries (start, end).
-- **EmailOperator or Slack Hook**: Sends alerts for pipeline success or failure.
-
-## Key Considerations
-
-- **Error Handling**: Implement retries and alerts for failed API calls or transformations.
-- **Idempotency**: Ensure the pipeline doesn't duplicate data if re-run.
-- **Logging and Monitoring**: Add detailed logging for troubleshooting and auditing.
-- **Templating and Parameters**: Use Airflow macros to pass dates or runtime variables dynamically into API requests.
-- **Environment Variables**: Store API keys and secrets securely using Airflow’s Variables or Connections.
-
-## Scheduling Strategy
-
-- Choose an interval aligned with the API’s update frequency.
-- Use `catchup=False` if you don’t want past runs to backfill automatically.
-- Optionally implement a DAG-level SLA to monitor pipeline performance.
-
-## Extension Ideas
-
-- Chain multiple API calls together (e.g., fetch metadata and then detailed records).
-- Parallelize requests to speed up data collection.
-- Archive raw API responses for debugging or audit purposes.
-- Use TaskFlow API for cleaner, function-based DAGs.
-
-# Resources
-
-## Official Documentation
-- [Apache Airflow Docs](https://airflow.apache.org/docs/)
-
-## Video Tutorials
-- [YouTube Tutorial – Apache Airflow Full Course](https://www.youtube.com/watch?v=K9AnJ9_ZAXE)
-
-## Medium Articles
-- [Data Pipeline using Apache Airflow to Import Data from Public API](https://medium.com/jakartasmartcity/data-pipeline-using-apache-airflow-to-import-data-from-public-api-7ff719118ac8)  
-  *A practical guide on importing time-series data from a public API into a local database using Airflow.*
-
-- [Implementing Data Pipelines with Apache Airflow in Python](https://medium.com/@AlexanderObregon/implementing-data-pipelines-with-apache-airflow-in-python-69761ed65bdb)  
-  *An introduction to building and managing data pipelines with Airflow and Python.*
-
-- [How to Automate Data Pipelines in Apache Airflow](https://medium.com/codex/how-to-automate-data-pipelines-in-apache-airflow-9fc90291371a)  
-  *A step-by-step guide to automating data pipelines using Airflow's core features.*
-
-- [Apache Airflow for Data Science — How to Work with REST APIs](https://medium.com/data-science/apache-airflow-for-data-science-how-to-work-with-rest-apis-8f4e20bee7d)  
-  *Insights on using Airflow to interact with REST APIs in a data science context.*
