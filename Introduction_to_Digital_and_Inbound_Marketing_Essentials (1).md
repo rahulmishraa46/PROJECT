@@ -1,7 +1,7 @@
 # Supermarket Sales Data Analysis Assignment
 
 ## 📋 Problem Statement
-You've been hired as a Data Analyst by a supermarket chain with 3 branches in Myanmar. The management wants to understand customer behavior, product performance, and sales patterns to optimize their operations. Your task is to perform an end-to-end data analysis of their sales records using Python.
+To understand customer behavior, product performance, and sales patterns to optimize their operations. Your task is to perform an end-to-end data analysis of their sales records using Python.
 
 ### 📊 Dataset
 **Source**: [Supermarket Sales Dataset](https://raw.githubusercontent.com/sushantag9/Supermarket-Sales-Data-Analysis/master/supermarket_sales%20-%20Sheet1.csv)  
@@ -75,42 +75,3 @@ You've been hired as a Data Analyst by a supermarket chain with 3 branches in My
    - Comments explaining each step
    - Visualizations embedded in notebook
 
-2. **Report PDF** (`analysis_report.pdf`) with:
-   - Key findings (1 page)
-   - Business recommendations (3-5)
-   - Supporting visualizations
-
-3. **Processed Data Files** in a `/data` folder:
-   - `cleaned_sales.csv`
-   - `sales_data.parquet`
-   - `supermarket.db` (DuckDB database)
-
-## ⏱️ Timeline
-- **Due Date**: 7 days from assignment date
-- **Late Submission**: 10% penalty per day
-
-## 📝 Evaluation Criteria
-| Criteria | Weight |
-|----------|--------|
-| Data Cleaning & Transformation | 25% |
-| Analysis Completeness | 30% |
-| Visualization Quality | 20% |
-| Business Insights | 15% |
-| Code Quality & Documentation | 10% |
-
-## 💡 Tips for Success
-1. Use modular code (functions for each task)
-2. Handle datetime conversion carefully
-3. Validate data quality at each step
-4. Provide clear interpretations for each visualization
-5. Focus on actionable insights rather than just statistics
-
-## 🚀 Bonus Points
-1. Implement error handling in data pipeline
-2. Create interactive dashboard (Streamlit/Panel)
-3. Perform statistical hypothesis testing
-4. Implement machine learning model for sales prediction
-
----
-
-**Note to Students**: This assignment simulates real-world data analysis tasks. Focus on delivering actionable insights that would help supermarket management make better decisions. Good luck! 💪
