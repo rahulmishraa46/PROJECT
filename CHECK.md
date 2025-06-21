@@ -1,14 +1,15 @@
-Supermarket Sales Analysis: Complete Solution
-This document provides a full, production-grade Python script to solve the supermarket sales analysis tasks. It uses a modern data stack including Prefect for orchestration, DuckDB for fast analytics, and Plotly for interactive visualizations.
+# Supermarket Sales Analysis: Complete Solution
 
-Dataset Link: https://raw.githubusercontent.com/sushantag9/Supermarket-Sales-Data-Analysis/master/supermarket_sales%20-%20Sheet1.csv
+This production-grade Python script solves the supermarket sales analysis tasks using a modern data stack including:
+- **Prefect** for orchestration
+- **DuckDB** for fast analytics
+- **Plotly** for interactive visualizations
 
-Python Implementation
-Here's the optimized solution using a modern data stack with Prefect for orchestration, DuckDB for analytics, and Plotly for visualization.
+**Dataset**: [https://raw.githubusercontent.com/sushantag9/Supermarket-Sales-Data-Analysis/master/supermarket_sales%20-%20Sheet1.csv](https://raw.githubusercontent.com/sushantag9/Supermarket-Sales-Data-Analysis/master/supermarket_sales%20-%20Sheet1.csv)
 
-# Supermarket Sales Analysis with Prefect Orchestration
-# Dataset: [https://raw.githubusercontent.com/sushantag9/Supermarket-Sales-Data-Analysis/master/supermarket_sales%20-%20Sheet1.csv](https://raw.githubusercontent.com/sushantag9/Supermarket-Sales-Data-Analysis/master/supermarket_sales%20-%20Sheet1.csv)
+## Python Implementation
 
+```python
 from prefect import flow, task
 import pandas as pd
 import duckdb
@@ -23,7 +24,7 @@ from sklearn.linear_model import LinearRegression
 @task(name="Extract Data", retries=2, retry_delay_seconds=30)
 def extract_data():
     """Download dataset from GitHub"""
-    url = "[https://raw.githubusercontent.com/sushantag9/Supermarket-Sales-Data-Analysis/master/supermarket_sales%20-%20Sheet1.csv](https://raw.githubusercontent.com/sushantag9/Supermarket-Sales-Data-Analysis/master/supermarket_sales%20-%20Sheet1.csv)"
+    url = "https://raw.githubusercontent.com/sushantag9/Supermarket-Sales-Data-Analysis/master/supermarket_sales%20-%20Sheet1.csv"
     return pd.read_csv(url)
 
 @task(name="Transform Data")
@@ -38,7 +39,7 @@ def transform_data(df):
         df[col] = df[col].str.title()
     
     # Calculate new metrics
-    df['Hour'] = pd.to_datetime(df['Time'], format='%H:%M').dt.hour
+    df['Hour'] = pd.to_datetime(df['Time']).dt.hour
     df['Gross Margin Percentage'] = (df['gross income'] / df['Total']) * 100
     df['DayOfWeek'] = df['DateTime'].dt.day_name()
     
@@ -231,61 +232,3 @@ def supermarket_analysis_flow():
 if __name__ == "__main__":
     result = supermarket_analysis_flow()
     print(result)
-
-Why This is the Perfect Solution:
-1. Modern Orchestration with Prefect
-Automatic retries with backoff strategy
-
-Task dependencies managed automatically
-
-Observability built-in (run prefect server start to view UI)
-
-Error handling at each task level
-
-2. High-Performance Analytics Stack
-DuckDB: Embedded OLAP database for fast analytics
-
-Pandas: Efficient data manipulation
-
-Plotly: Interactive, publication-quality visualizations
-
-scikit-learn: Advanced analytics and modeling
-
-3. Production-Grade Features
-Modular design: Each component is independently testable
-
-Data validation: Built into transformation steps
-
-Multiple output formats: CSV, Parquet, and DuckDB database
-
-Full observability: Each task reports its status
-
-4. Business-Ready Outputs
-Interactive HTML dashboards: Open in any browser
-
-Strategic insights: Ready for executive presentations
-
-Advanced analytics: Predictive modeling and anomaly detection
-
-Data products: Clean datasets for further analysis
-
-How to Run:
-Save the code: Save the script above as supermarket_analysis.py.
-
-Install requirements:
-
-pip install prefect pandas duckdb plotly scikit-learn
-
-Run the flow:
-
-python supermarket_analysis.py
-
-View outputs:
-
-Cleaned data: cleaned_supermarket_sales.csv
-
-Analytics database: supermarket_sales.duckdb
-
-Interactive reports: *.html files
-
-Console: Business insights and metrics
