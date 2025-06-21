@@ -16,8 +16,6 @@ To understand customer behavior, product performance, and sales patterns to opti
 4. Create visualizations to support findings
 5. Build a complete analysis pipeline
 
-Supermarket Sales Analysis Project
-This document outlines the tasks required for a comprehensive analysis of the supermarket sales dataset.
 
 1️⃣ Data Preparation (ETL)
 [ ] a. Extract data from the provided URL:
