@@ -16,6 +16,20 @@ To understand customer behavior, product performance, and sales patterns to opti
 4. Create visualizations to support findings
 5. Build a complete analysis pipeline
 
+
+
+## 1️⃣ Data Preparation (ETL)
+
+```python
+# [TODO] Write code to:
+# a. Extract data from the provided URL
+# b. Handle datetime conversion (Date + Time → DateTime)
+# c. Clean data: Standardize text (Title case), handle missing values
+# d. Calculate new metrics:
+#    - Hour of purchase (from Time)
+#    - Gross Margin Percentage (Gross income / Total)
+# e. Save cleaned data to multiple formats: CSV, Parquet, and DuckDB database
+
 Here's the corrected version that will paste properly into a GitHub `.md` file without formatting issues:
 
 ```markdown
