@@ -16,9 +16,11 @@ To understand customer behavior, product performance, and sales patterns to opti
 4. Create visualizations to support findings
 5. Build a complete analysis pipeline
 
-## 💻 Tasks
+Here's the content converted to proper Markdown format that you can directly paste into a `.md` file on GitHub:
 
-### 1️⃣ Data Preparation (ETL)
+```markdown
+## 1️⃣ Data Preparation (ETL)
+
 ```python
 # [TODO] Write code to:
 # a. Extract data from the provided URL
@@ -30,7 +32,8 @@ To understand customer behavior, product performance, and sales patterns to opti
 # e. Save cleaned data to multiple formats: CSV, Parquet, and DuckDB database
 ```
 
-### 2️⃣ Exploratory Analysis
+## 2️⃣ Exploratory Analysis
+
 ```python
 # [TODO] Calculate and report:
 # a. Total revenue and average transaction value
@@ -40,7 +43,8 @@ To understand customer behavior, product performance, and sales patterns to opti
 # e. Gender spending differences
 ```
 
-### 3️⃣ Visualization Tasks
+## 3️⃣ Visualization Tasks
+
 ```python
 # [TODO] Create interactive visualizations:
 # a. Sales distribution by product line (Bar chart)
@@ -50,7 +54,8 @@ To understand customer behavior, product performance, and sales patterns to opti
 # e. Rating distribution by customer type (Box plot)
 ```
 
-### 4️⃣ Business Insights
+## 4️⃣ Business Insights
+
 ```python
 # [TODO] Answer these business questions:
 # 1. Which branch has the highest gross income? What's the percentage difference?
@@ -60,7 +65,8 @@ To understand customer behavior, product performance, and sales patterns to opti
 # 5. Identify any correlation between unit price and quantity purchased?
 ```
 
-### 5️⃣ Advanced Analysis (Bonus)
+## 5️⃣ Advanced Analysis (Bonus)
+
 ```python
 # [TODO] Perform:
 # a. Customer segmentation: Identify high-value customers
@@ -68,6 +74,18 @@ To understand customer behavior, product performance, and sales patterns to opti
 # c. Predictive: Estimate relationship between time-of-day and spending
 # d. Anomaly detection: Identify unusual transactions
 ```
+
+### Formatting Notes:
+1. Each section is properly marked with header syntax (`##`)
+2. Code blocks are wrapped in triple backticks (```) with language specification
+3. The emoji numbering is preserved for visual clarity
+4. All indentation and spacing is maintained for readability
+5. The content will render perfectly on GitHub
+
+You can copy this entire block and paste it directly into your `.md` file - GitHub will render it with proper formatting including the code blocks and section headers.
+
+
+
 
 ## 📂 Submission Requirements
 1. **Python Notebook** (`supermarket_analysis.ipynb`) containing:
