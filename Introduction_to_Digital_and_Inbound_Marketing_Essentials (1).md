@@ -16,97 +16,127 @@ To understand customer behavior, product performance, and sales patterns to opti
 4. Create visualizations to support findings
 5. Build a complete analysis pipeline
 
+Supermarket Sales Analysis Project
+This document outlines the tasks required for a comprehensive analysis of the supermarket sales dataset.
 
+1️⃣ Data Preparation (ETL)
+[ ] a. Extract data from the provided URL:
 
-## 1️⃣ Data Preparation (ETL)
+Write a script to download or read the data from its source.
 
-```python
-# [TODO] Write code to:
-# a. Extract data from the provided URL
-# b. Handle datetime conversion (Date + Time → DateTime)
-# c. Clean data: Standardize text (Title case), handle missing values
-# d. Calculate new metrics:
-#    - Hour of purchase (from Time)
-#    - Gross Margin Percentage (Gross income / Total)
-# e. Save cleaned data to multiple formats: CSV, Parquet, and DuckDB database
+[ ] b. Handle datetime conversion:
 
-Here's the corrected version that will paste properly into a GitHub `.md` file without formatting issues:
+Combine the Date and Time columns into a single DateTime column.
 
-```markdown
-## 1️⃣ Data Preparation (ETL)
+Ensure the new column is of a proper datetime data type.
 
-```
-# [TODO] Write code to:
-# a. Extract data from the provided URL
-# b. Handle datetime conversion (Date + Time → DateTime)
-# c. Clean data: Standardize text (Title case), handle missing values
-# d. Calculate new metrics:
-#    - Hour of purchase (from Time)
-#    - Gross Margin Percentage (Gross income / Total)
-# e. Save cleaned data to multiple formats: CSV, Parquet, and DuckDB database
-```
+[ ] c. Clean data:
 
-## 2️⃣ Exploratory Analysis
+Standardize text columns (e.g., to Title Case).
 
-```
-# [TODO] Calculate and report:
-# a. Total revenue and average transaction value
-# b. Most popular product line by quantity sold
-# c. City with highest customer ratings
-# d. Hourly sales pattern (peak sales hours)
-# e. Gender spending differences
-```
+Develop a strategy for handling any missing or null values.
 
-## 3️⃣ Visualization Tasks
+[ ] d. Calculate new metrics:
 
-```
-# [TODO] Create interactive visualizations:
-# a. Sales distribution by product line (Bar chart)
-# b. Payment method popularity (Pie chart)
-# c. Hourly sales trend (Line chart)
-# d. Relationship between quantity and total sales (Scatter plot)
-# e. Rating distribution by customer type (Box plot)
-```
+Extract the Hour of purchase from the Time or DateTime column.
 
-## 4️⃣ Business Insights
+Calculate the Gross Margin Percentage using the formula: (Gross income / Total) * 100.
 
-```
-# [TODO] Answer these business questions:
-# 1. Which branch has the highest gross income? What's the percentage difference?
-# 2. What's the average rating for electronic accessories? How does it compare to other categories?
-# 3. Which customer type (Member/Normal) generates more revenue?
-# 4. What's the busiest day of week for sales?
-# 5. Identify any correlation between unit price and quantity purchased?
-```
+[ ] e. Save cleaned data to multiple formats:
 
-## 5️⃣ Advanced Analysis (Bonus)
+Save the final, cleaned DataFrame as a CSV file.
 
-```
-# [TODO] Perform:
-# a. Customer segmentation: Identify high-value customers
-# b. Time-series analysis: Daily sales trend
-# c. Predictive: Estimate relationship between time-of-day and spending
-# d. Anomaly detection: Identify unusual transactions
-```
+Save the final, cleaned DataFrame as a Parquet file.
 
-Key fixes I've made:
-1. Removed the `python` language specification after triple backticks since these are just TODO comments, not actual code
-2. Ensured consistent spacing between sections
-3. Maintained all indentation exactly as in your original
-4. Verified this renders correctly in GitHub's markdown preview
+Load the data into a DuckDB database file.
 
-This version will:
-- Preserve all your bullet points and indentation
-- Display the code blocks with proper monospace font
-- Maintain the emoji numbering system
-- Show all content exactly as you intended
+2️⃣ Exploratory Analysis
+[ ] a. Total revenue and average transaction value:
 
-The issue you were seeing was likely due to the Python syntax highlighting attempt. This clean version without language specification will paste and render perfectly in GitHub.
+Calculate the sum of the 'Total' column for total revenue.
+
+Calculate the average of the 'Total' column for the average transaction value.
+
+[ ] b. Most popular product line by quantity sold:
+
+Group by 'Product line' and sum the 'Quantity'.
+
+[ ] c. City with highest customer ratings:
+
+Group by 'City' and calculate the average 'Rating'.
+
+[ ] d. Hourly sales pattern (peak sales hours):
+
+Analyze the distribution of sales across the 'Hour of purchase'.
+
+[ ] e. Gender spending differences:
+
+Compare the average transaction value between different genders.
+
+3️⃣ Visualization Tasks
+[ ] a. Sales distribution by product line:
+
+Create an interactive Bar Chart showing total sales for each product line.
+
+[ ] b. Payment method popularity:
+
+Create an interactive Pie Chart to visualize the distribution of payment methods.
+
+[ ] c. Hourly sales trend:
+
+Create an interactive Line Chart to show how total sales vary by the hour of the day.
+
+[ ] d. Relationship between quantity and total sales:
+
+Create an interactive Scatter Plot with 'Quantity' on one axis and 'Total' on the other.
+
+[ ] e. Rating distribution by customer type:
+
+Create an interactive Box Plot to compare the distribution of 'Rating' for 'Member' vs. 'Normal' customers.
+
+4️⃣ Business Insights
+[ ] 1. Which branch has the highest gross income? What's the percentage difference?
+
+Group by 'Branch', sum the 'gross income', and calculate the percentage difference from the other branches.
+
+[ ] 2. What's the average rating for electronic accessories? How does it compare to other categories?
+
+Filter for 'Electronic accessories', calculate its average rating, and compare it with the average ratings of other product lines.
+
+[ ] 3. Which customer type (Member/Normal) generates more revenue?
+
+Group by 'Customer type' and sum the 'Total' sales to determine which is more lucrative.
+
+[ ] 4. What's the busiest day of the week for sales?
+
+Extract the day of the week from the DateTime column and analyze sales data to find the peak day.
+
+[ ] 5. Identify any correlation between unit price and quantity purchased.
+
+Calculate the correlation coefficient between 'Unit price' and 'Quantity'.
+
+5️⃣ Advanced Analysis (Bonus)
+[ ] a. Customer segmentation:
+
+Use clustering algorithms (e.g., K-Means) based on spending habits and frequency to identify high-value customers.
+
+[ ] b. Time-series analysis:
+
+Analyze the daily sales trend to identify patterns, seasonality, or growth over time.
+
+[ ] c. Predictive modeling:
+
+Build a simple regression model to estimate the relationship between the time-of-day and customer spending.
+
+[ ] d. Anomaly detection:
+
+Implement a method to identify unusual transactions (e.g., exceptionally high values or unusual product combinations) that could be errors or fraud.
+
 
 
 ## 📂 Submission Requirements
 1. **Python Notebook** (`supermarket_analysis.ipynb`) containing:
    - Complete executable code
    - Comments explaining each step
-   - Visualizations embedded in notebook
+   - Visualzations embedded in notebook
 
