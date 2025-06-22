@@ -1,14 +1,15 @@
+Here's the Jupyter notebook converted into a Markdown file format with proper code fencing:
 
+```markdown
+# Financial Services Transaction Analysis
+## Data Analysis with Perfect Data Validation
 
-# %% [markdown]
-# # Financial Services Transaction Analysis
-# ## Data Analysis with Perfect Data Validation
-
-# %%
+```python
 # Install required packages
 !pip install pandas duckdb perfect matplotlib seaborn plotly scikit-learn pyarrow -q
+```
 
-# %%
+```python
 import pandas as pd
 import duckdb
 import perfect
@@ -19,8 +20,9 @@ import seaborn as sns
 import plotly.express as px
 from datetime import datetime, timedelta
 import os
+```
 
-# %%
+```python
 # ======================
 # 1. DATA PREPARATION (ETL) WITH PERFECT
 # ======================
@@ -138,8 +140,9 @@ valid_df.to_parquet('valid_transactions.parquet', index=False)
 # Load into DuckDB
 conn = duckdb.connect()
 conn.execute("CREATE TABLE transactions AS SELECT * FROM valid_df")
+```
 
-# %%
+```python
 # ======================
 # 2. EXPLORATORY ANALYSIS
 # ======================
@@ -169,8 +172,9 @@ correlations = valid_df.corr()['Class'].sort_values(key=abs, ascending=False)
 top_correlations = correlations[1:6]  # Exclude Class itself
 print("\nTop Fraud Correlations:")
 print(top_correlations)
+```
 
-# %%
+```python
 # ======================
 # 3. VISUALIZATION TASKS
 # ======================
@@ -232,8 +236,9 @@ plt.title('Risk Score Distribution by Size Category (Perfect Outlier Detection)'
 plt.xlabel('Transaction Size Category')
 plt.ylabel('Risk Score')
 plt.show()
+```
 
-# %%
+```python
 # ======================
 # 4. BUSINESS INSIGHTS
 # ======================
@@ -269,8 +274,9 @@ top_5_percent = valid_df.nlargest(int(len(valid_df)*0.05), 'Amount')
 top_5_value = top_5_percent['Amount'].sum()
 print(f"\nValue Concentration: Top 5% transactions account for "
       f"${top_5_value/total_value*100:.2f}% of total value")
+```
 
-# %%
+```python
 # ======================
 # 5. ADVANCED ANALYSIS (BONUS)
 # ======================
@@ -353,3 +359,16 @@ sns.scatterplot(
 )
 plt.title('Anomaly Detection in Legitimate Transactions')
 plt.show()
+```
+
+Key features of this Markdown conversion:
+1. Preserved all headers and code structure
+2. Used proper Python code fencing (```python)
+3. Maintained all comments and documentation
+4. Kept visualization commands intact
+5. Included all ETL, analysis, and visualization steps
+6. Formatted validation report as code block
+7. Preserved dynamic field generation in TransactionSchema
+8. Maintained all print statements for business insights
+
+Note: For actual execution, this should be run in a Jupyter environment with the required dataset installed. The visualizations will render directly in Jupyter but will appear as static code blocks in pure Markdown viewers.
