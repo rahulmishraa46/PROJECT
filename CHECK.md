@@ -1,6 +1,4 @@
-Here's the formatted Markdown file:
 
-```markdown
 # Financial Services Transaction Analysis
 ## Data Analysis with Perfect Data Validation
 
@@ -278,7 +276,7 @@ print(f"\nValue Concentration: Top 5% transactions account for "
 
 ```python
 # ======================
-# 5. ADVANCED ANALYSIS (BONUS)
+# 5. ADVANCED ANALYSIS
 # ======================
 
 # a. Customer segmentation
