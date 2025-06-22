@@ -20,11 +20,11 @@ You've been hired as a Data Analyst by a supermarket chain with 3 branches in My
 
 
 1️⃣ Data Preparation (ETL)
-[ ] a. Extract data from the provided URL:
+a. Extract data from the provided URL:
 
 Write a script to download or read the data from its source.
 
-[ ] b. Handle datetime conversion:
+b. Handle datetime conversion:
 
 Combine the Date and Time columns into a single DateTime column.
 
