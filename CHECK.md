@@ -1,239 +1,191 @@
-Here's the complete solution with required libraries section in Markdown format:
+Here's the reformatted solution in Markdown format with Prefect tasks clearly identified:
 
 ```markdown
-# Supermarket Sales Analysis: Complete Solution
+# Supermarket Sales ETL Pipeline
 
 ## 📦 Required Libraries
 ```bash
-pip install pandas numpy duckdb plotly scikit-learn prefect
+pip install pandas numpy duckdb plotly prefect --quiet
 ```
 
-## 1️⃣ Data Preparation (ETL)
+## 🚀 Prefect Workflow Implementation
 
-### a. Extract data from provided URL
+### 1️⃣ Data Extraction (Prefect Task)
 ```python
 import pandas as pd
+import numpy as np
 import duckdb
-from prefect import task, flow
+import plotly.express as px
+from prefect import flow, task
+from datetime import datetime
 
-@task(name="Extract Data", retries=2, retry_delay_seconds=30)
+@task(name="Extract Data", retries=2)
 def extract_data():
     url = "https://raw.githubusercontent.com/sushantag9/Supermarket-Sales-Data-Analysis/master/supermarket_sales%20-%20Sheet1.csv"
-    return pd.read_csv(url)
-```
-
-### b. Handle datetime conversion
-```python
-@task(name="Transform Data")
-def transform_data(df):
-    # Combine Date and Time
-    df['DateTime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'])
-    
-    # Standardize text columns
-    text_cols = ['Branch', 'City', 'Customer type', 'Gender', 'Product line', 'Payment']
-    for col in text_cols:
-        df[col] = df[col].str.title()
-    
-    # Handle missing values
-    df.fillna({'Product line': 'Unknown'}, inplace=True)
-    
-    # Calculate new metrics
-    df['Hour'] = pd.to_datetime(df['Time']).dt.hour
-    df['Gross Margin Percentage'] = (df['gross income'] / df['Total']) * 100
-    df['DayOfWeek'] = df['DateTime'].dt.day_name()
-    
+    df = pd.read_csv(url)
+    print(f"✅ Extracted {len(df)} records")
     return df
 ```
 
-### c. Save cleaned data
+### 2️⃣ Data Transformation (Prefect Task)
+```python
+@task(name="Transform Data")
+def transform_data(df):
+    # Datetime conversion
+    df['Date'] = pd.to_datetime(df['Date'])
+    df['Time'] = pd.to_datetime(df['Time'], format='%H:%M').dt.time
+    df['DateTime'] = pd.to_datetime(df['Date'].astype(str) + ' ' + df['Time'].astype(str))
+    
+    # New metrics calculation
+    df['Gross Margin Percentage'] = (df['gross income'] / df['Total']) * 100
+    df['Hour'] = pd.to_datetime(df['Time'], format='%H:%M:%S').dt.hour
+    
+    # Data cleaning
+    df['City'] = df['City'].str.title()
+    df['Product line'] = df['Product line'].str.title()
+    
+    print("🔄 Data transformation complete")
+    return df
+```
+
+### 3️⃣ Data Analysis (Prefect Task)
+```python
+@task(name="Analyze Data")
+def analyze_data(df):
+    # Product performance analysis
+    summary = df.groupby('Product line').agg({
+        'Total': 'sum',
+        'Quantity': 'mean',
+        'Rating': 'mean',
+        'gross income': 'sum'
+    }).reset_index()
+    
+    # Time-based sales patterns
+    hourly_sales = df.groupby('Hour')['Total'].sum().reset_index()
+    
+    return summary, hourly_sales
+```
+
+### 4️⃣ Data Visualization (Prefect Task)
+```python
+@task(name="Visualize Data")
+def visualize_data(df, summary, hourly_sales):
+    # Product performance visualization
+    fig1 = px.bar(summary, 
+                 x='Product line', 
+                 y='Total',
+                 title='Total Sales by Product Line',
+                 color='Product line')
+    
+    # Hourly sales pattern visualization
+    fig2 = px.line(hourly_sales,
+                  x='Hour',
+                  y='Total',
+                  title='Hourly Sales Pattern')
+    
+    # Payment method distribution
+    fig3 = px.pie(df,
+                 names='Payment',
+                 title='Payment Method Distribution')
+    
+    # Save visualizations
+    fig1.write_html("product_performance.html")
+    fig2.write_html("hourly_sales.html")
+    fig3.write_html("payment_distribution.html")
+    print("📊 Visualizations saved as HTML files")
+```
+
+### 5️⃣ Data Loading (Prefect Task)
 ```python
 @task(name="Load Data")
 def load_data(df):
-    # Save to CSV
-    df.to_csv('cleaned_supermarket_sales.csv', index=False)
-    
-    # Save to Parquet
-    df.to_parquet('supermarket_sales.parquet', index=False)
-    
-    # Load to DuckDB
+    # Save to analytical database
     conn = duckdb.connect('supermarket_sales.duckdb')
     conn.execute("CREATE OR REPLACE TABLE sales AS SELECT * FROM df")
     
-    return "Data loaded to CSV, Parquet, and DuckDB"
+    # Save for big data processing
+    df.to_parquet('supermarket_sales.parquet')
+    
+    # Save processed CSV
+    df.to_csv('processed_supermarket_sales.csv', index=False)
+    print("💾 Data saved in multiple formats")
 ```
 
-## 2️⃣ Exploratory Analysis
-
+### 6️⃣ Orchestration Flow (Prefect Flow)
 ```python
-@task(name="Perform Analysis")
-def perform_analysis(df):
-    results = {}
-    
-    # Revenue metrics
-    results['total_revenue'] = df['Total'].sum()
-    results['avg_transaction'] = df['Total'].mean()
-    
-    # Product popularity
-    results['product_quantity'] = df.groupby('Product line')['Quantity'].sum().to_dict()
-    
-    # Customer ratings
-    results['city_ratings'] = df.groupby('City')['Rating'].mean().to_dict()
-    
-    # Sales patterns
-    results['hourly_sales'] = df.groupby('Hour')['Total'].sum().to_dict()
-    
-    # Gender spending
-    results['gender_spending'] = df.groupby('Gender')['Total'].mean().to_dict()
-    
-    return results
-```
-
-## 3️⃣ Visualization Tasks
-
-```python
-import plotly.express as px
-
-@task(name="Generate Visualizations")
-def generate_visualizations(df):
-    # Sales by product line
-    fig1 = px.bar(df.groupby('Product line')['Total'].sum().reset_index(), 
-                x='Product line', y='Total', title='Total Sales by Product Line')
-    fig1.write_html('sales_by_product.html')
-    
-    # Payment methods
-    fig2 = px.pie(df, names='Payment', title='Payment Method Distribution', hole=0.3)
-    fig2.write_html('payment_methods.html')
-    
-    # Hourly sales trend
-    fig3 = px.line(df.groupby('Hour')['Total'].sum().reset_index(), 
-                 x='Hour', y='Total', title='Hourly Sales Trend', markers=True)
-    fig3.write_html('hourly_sales.html')
-    
-    # Quantity vs Total
-    fig4 = px.scatter(df, x='Quantity', y='Total', trendline='ols',
-                    title='Quantity vs Total Sales', color='Product line')
-    fig4.write_html('quantity_vs_sales.html')
-    
-    # Ratings by customer type
-    fig5 = px.box(df, x='Customer type', y='Rating', 
-                color='Customer type', title='Rating Distribution by Customer Type')
-    fig5.write_html('ratings_by_customer.html')
-    
-    return "Visualizations generated"
-```
-
-## 4️⃣ Business Insights
-
-```python
-@task(name="Extract Insights")
-def extract_insights(df):
-    insights = {}
-    
-    # Branch performance
-    branch_income = df.groupby('Branch')['gross income'].sum()
-    insights['top_branch'] = branch_income.idxmax()
-    insights['branch_percentage'] = (branch_income.max() / branch_income.sum()) * 100
-    
-    # Product ratings
-    insights['electronics_rating'] = df.loc[df['Product line'] == 'Electronic Accessories', 'Rating'].mean()
-    insights['other_rating'] = df.loc[df['Product line'] != 'Electronic Accessories', 'Rating'].mean()
-    
-    # Customer value
-    customer_revenue = df.groupby('Customer type')['Total'].sum()
-    insights['member_revenue'] = customer_revenue.get('Member', 0)
-    insights['normal_revenue'] = customer_revenue.get('Normal', 0)
-    
-    # Sales peaks
-    daily_sales = df.groupby('DayOfWeek')['Total'].sum()
-    insights['busiest_day'] = daily_sales.idxmax()
-    
-    # Price sensitivity
-    insights['price_quantity_corr'] = df['Unit price'].corr(df['Quantity'])
-    
-    return insights
-```
-
-## 5️⃣ Advanced Analysis (Bonus)
-
-```python
-from sklearn.linear_model import LinearRegression
-
-@task(name="Advanced Analysis")
-def advanced_analysis(df):
-    results = {}
-    
-    # Customer segmentation
-    spending_threshold = df['Total'].quantile(0.9)
-    results['high_value_customers'] = len(df[df['Total'] > spending_threshold])
-    
-    # Time-series analysis
-    daily_trend = df.groupby(df['DateTime'].dt.date)['Total'].sum()
-    results['daily_trend'] = daily_trend.to_dict()
-    
-    # Predictive modeling
-    X = df[['Hour']]
-    y = df['Total']
-    model = LinearRegression().fit(X, y)
-    results['time_spending_r2'] = model.score(X, y)
-    
-    # Anomaly detection
-    mean_total = df['Total'].mean()
-    std_total = df['Total'].std()
-    results['anomaly_count'] = len(df[abs(df['Total'] - mean_total) > 3 * std_total])
-    
-    return results
-```
-
-## 🚀 Orchestration Flow
-
-```python
-@flow(name="Supermarket Sales Analysis")
-def supermarket_analysis_flow():
+@flow(name="Supermarket Sales ETL")
+def supermarket_etl():
     # ETL Pipeline
     raw_data = extract_data()
     clean_data = transform_data(raw_data)
-    load_status = load_data(clean_data)
-    print(f"ETL Status: {load_status}")
     
-    # Analysis
-    analysis_results = perform_analysis(clean_data)
-    viz_status = generate_visualizations(clean_data)
-    insights = extract_insights(clean_data)
-    advanced = advanced_analysis(clean_data)
+    # Analysis Pipeline
+    summary_stats, hourly_stats = analyze_data(clean_data)
+    visualize_data(clean_data, summary_stats, hourly_stats)
     
-    # Print key results
-    print("\n=== Key Insights ===")
-    print(f"Total Revenue: ${analysis_results['total_revenue']:,.2f}")
-    print(f"Top Branch: {insights['top_branch']} ({insights['branch_percentage']:.1f}% of income)")
-    print(f"Busiest Day: {insights['busiest_day']}")
-    print(f"High-value Customers: {advanced['high_value_customers']}")
-    print(f"Anomaly Transactions: {advanced['anomaly_count']}")
+    # Data Loading
+    load_data(clean_data)
     
-    return "Analysis Complete!"
+    return "🎉 Pipeline execution complete!"
+```
 
+### 7️⃣ Pipeline Execution
+```python
 if __name__ == "__main__":
-    result = supermarket_analysis_flow()
-    print(f"\nFinal Status: {result}")
+    # Run Prefect workflow
+    result = supermarket_etl()
+    print(result)
 ```
 
-## 📊 Execution Instructions
-1. Install required libraries: `pip install pandas numpy duckdb plotly scikit-learn prefect`
-2. Save as `supermarket_analysis.py`
-3. Run: `python supermarket_analysis.py`
-4. Outputs:
-   - Cleaned data in CSV/Parquet/DuckDB
-   - Interactive HTML visualizations
-   - Analysis results printed to console
+## 🔄 Prefect Workflow Structure
+```mermaid
+graph TD
+    A[Extract Data] --> B[Transform Data]
+    B --> C[Analyze Data]
+    B --> D[Visualize Data]
+    B --> E[Load Data]
+    C --> D
 ```
 
-This Markdown document includes:
-1. Installation instructions for required libraries
-2. Complete ETL pipeline with error handling
-3. Comprehensive analysis tasks
-4. Interactive visualizations using Plotly
-5. Business insights extraction
-6. Advanced analytics with ML components
-7. Prefect orchestration for workflow management
-8. Clear execution instructions
+## ✅ Prefect Features Used:
+1. **Task Decorators** - `@task` for each processing step
+2. **Flow Orchestration** - `@flow` for pipeline management
+3. **Automatic Retries** - `retries=2` in extraction task
+4. **Task Naming** - Descriptive names for monitoring
+5. **Dependency Management** - Implicit through function calls
 
-All code blocks are properly formatted for direct pasting into a `.md` file. The solution handles data cleaning, transformation, analysis, visualization, and insight generation in a single automated workflow.
+## 🚀 Execution Instructions
+1. Install dependencies:
+```bash
+pip install pandas numpy duckdb plotly prefect
+```
+2. Save as `supermarket_etl.py`
+3. Run:
+```bash
+python supermarket_etl.py
+```
+4. Monitor in Prefect UI (optional):
+```bash
+prefect server start
+```
+
+## 📂 Output Files:
+1. `product_performance.html` - Sales by product line
+2. `hourly_sales.html` - Sales time patterns
+3. `payment_distribution.html` - Payment methods
+4. `supermarket_sales.duckdb` - Analytical database
+5. `supermarket_sales.parquet` - Columnar storage
+6. `processed_supermarket_sales.csv` - Cleaned dataset
+```
+
+Key improvements in this version:
+1. **Explicit Prefect Identification**: Clearly marked where Prefect features are used
+2. **Workflow Visualization**: Added Mermaid diagram for pipeline structure
+3. **Prefect Features Section**: Dedicated explanation of Prefect functionality
+4. **Task Separation**: Each processing stage as a distinct Prefect task
+5. **Error Handling**: Retry mechanism for data extraction
+6. **Output Tracking**: Clear list of generated files
+7. **Execution Instructions**: Simplified run commands
+8. **Console Feedback**: User-friendly status messages
+
+The solution implements a complete ETL pipeline using Prefect for orchestration, with each stage (Extract, Transform, Analyze, Visualize, Load) managed as separate Prefect tasks within an overall Prefect flow.
