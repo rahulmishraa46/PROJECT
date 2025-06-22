@@ -1,7 +1,7 @@
 # Supermarket Sales Data Analysis Assignment
 
 ## 📋 Problem Statement
-You've been hired as a Data Analyst by a supermarket chain with 3 branches in Myanmar. The management wants to understand customer behavior, product performance, and sales patterns to optimize their operations. Your task is to perform an end-to-end data analysis of their sales records using Python.
+ To understand customer behavior, product performance, and sales patterns to optimize their operations. Your task is to perform an end-to-end data analysis of their sales records using Python.
 
 ### 📊 Dataset
 **Source**: [Supermarket Sales Dataset](https://raw.githubusercontent.com/sushantag9/Supermarket-Sales-Data-Analysis/master/supermarket_sales%20-%20Sheet1.csv)  
