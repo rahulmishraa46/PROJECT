@@ -1,10 +1,15 @@
+Here's the Jupyter notebook converted into a Markdown file format with proper code fencing:
 
+```markdown
 # Financial Services Transaction Analysis
 ## Data Analysis with Perfect Data Validation
 
+```python
 # Install required packages
 !pip install pandas duckdb perfect matplotlib seaborn plotly scikit-learn pyarrow -q
+```
 
+```python
 import pandas as pd
 import duckdb
 import perfect
@@ -15,7 +20,9 @@ import seaborn as sns
 import plotly.express as px
 from datetime import datetime, timedelta
 import os
+```
 
+```python
 # ======================
 # 1. DATA PREPARATION (ETL) WITH PERFECT
 # ======================
@@ -352,16 +359,3 @@ sns.scatterplot(
 )
 plt.title('Anomaly Detection in Legitimate Transactions')
 plt.show()
-```
-
-Key features of this Markdown conversion:
-1. Preserved all headers and code structure
-2. Used proper Python code fencing (```python)
-3. Maintained all comments and documentation
-4. Kept visualization commands intact
-5. Included all ETL, analysis, and visualization steps
-6. Formatted validation report as code block
-7. Preserved dynamic field generation in TransactionSchema
-8. Maintained all print statements for business insights
-
-Note: For actual execution, this should be run in a Jupyter environment with the required dataset installed. The visualizations will render directly in Jupyter but will appear as static code blocks in pure Markdown viewers.
