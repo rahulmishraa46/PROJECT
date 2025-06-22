@@ -1,4 +1,4 @@
-Here's the Jupyter notebook converted into a Markdown file format with proper code fencing:
+Here's the formatted Markdown file:
 
 ```markdown
 # Financial Services Transaction Analysis
@@ -359,3 +359,4 @@ sns.scatterplot(
 )
 plt.title('Anomaly Detection in Legitimate Transactions')
 plt.show()
+```
