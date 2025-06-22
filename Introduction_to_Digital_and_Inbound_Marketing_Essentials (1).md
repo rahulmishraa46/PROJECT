@@ -1,6 +1,5 @@
 ### Enhanced Problem Statement with Perfect Tool Integration
 
-```markdown
 # Financial Services Transaction Analysis Assignment
 
 ## 📋 Problem Statement
