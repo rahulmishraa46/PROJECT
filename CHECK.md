@@ -1,15 +1,10 @@
-Here's the Jupyter notebook converted into a Markdown file format with proper code fencing:
 
-```markdown
 # Financial Services Transaction Analysis
 ## Data Analysis with Perfect Data Validation
 
-```python
 # Install required packages
 !pip install pandas duckdb perfect matplotlib seaborn plotly scikit-learn pyarrow -q
-```
 
-```python
 import pandas as pd
 import duckdb
 import perfect
@@ -20,9 +15,7 @@ import seaborn as sns
 import plotly.express as px
 from datetime import datetime, timedelta
 import os
-```
 
-```python
 # ======================
 # 1. DATA PREPARATION (ETL) WITH PERFECT
 # ======================
