@@ -1,5 +1,5 @@
 
-```markdown
+
 # Supermarket Sales ETL Pipeline solution
 
 ## 📦 Required Libraries
