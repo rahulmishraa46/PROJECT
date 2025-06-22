@@ -1,4 +1,4 @@
-### Enhanced Problem Statement with Perfect Tool Integration
+
 
 # Financial Services Transaction Analysis Assignment
 
@@ -30,7 +30,6 @@ To understand customer spending patterns, transaction behaviors, and financial r
   **Perfect Validation Rules**:  
   `Amount > 0` (remove negatives)  
   `Class in [0,1]` (binary fraud indicator)  
-  `V1-V28: -100 ≤ value ≤ 100` (anonymized feature boundaries)
 - [ ] **d. Calculate metrics with validation**  
   Create Risk Score with Perfect: `@check(risk_score >= Amount)`  
   Add Transaction Size Category with enum validation
@@ -92,26 +91,5 @@ To understand customer spending patterns, transaction behaviors, and financial r
    - Perfect data quality reports at key stages
    - Embedded visualizations with quality annotations
    - Perfect constraint definitions in YAML/JSON format
-```
 
-### Key Perfect Tool Integrations:
-1. **Data Validation Framework**: Schema enforcement at ingestion
-2. **Constraint System**: Business rule implementation (e.g., `Amount > 0`)
-3. **Statistical Guards**: Automatically detect distribution shifts
-4. **Anomaly Tagging**: Visual indicator for data issues in plots
-5. **Quality Reporting**: Automated data health certification
-6. **Drift Detection**: Monitor feature stability over time
-7. **Model Monitoring**: Wrap ML models with quality checks
 
-Perfect is embedded throughout the workflow:
-- **ETL**: As a data validation layer
-- **EDA**: For statistical reliability assurance
-- **Visualization**: As an annotation engine
-- **Advanced Analysis**: Providing quality metrics for models
-
-This integration ensures:
-1. Trustworthy insights through validated data
-2. Automated quality control at each stage
-3. Clear documentation of data assumptions
-4. Proactive issue detection in financial patterns
-5. Reproducible analysis with quality artifacts
